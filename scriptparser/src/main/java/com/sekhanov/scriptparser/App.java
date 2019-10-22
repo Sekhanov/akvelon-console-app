@@ -10,8 +10,9 @@ import java.util.Scanner;
 public final class App {
     public static void main(String[] args) {
         try (Scanner fileScanner = new Scanner(new FileReader(args[0]))) {
-            ScriptParser scriptParser = new ScriptParser(fileScanner);
-            scriptParser.parseCommands();
+            ScriptExecutor scriptExecutor = new ScriptExecutor(fileScanner);
+            scriptExecutor.addStatements();
+            scriptExecutor.startExecutingScript();
         } catch (IOException e) {
             e.printStackTrace();
         }
