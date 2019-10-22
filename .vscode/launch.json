@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "scriptParser",
+            "request": "launch",
+            "mainClass": "com.sekhanov.scriptparser.App",
+            "args": "d:/Downloads/1.txt"
+        }
+    ]
+}
