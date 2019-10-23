@@ -1,0 +1,27 @@
+read A
+read B
+read C	
+start:
+	if A > B goto switchAB
+	if A > C goto switchAC
+	if B > C goto switchBC
+	print A
+	print B
+	print C
+	goto end
+switchAB: 	
+	Temp = A
+	A = B
+	B = Temp
+	goto start
+switchAC: 	
+	Temp = A
+	A = C
+	C = Temp
+	goto start
+switchBC: 	
+	Temp = B
+	B = C
+	C = Temp
+	goto start
+end:

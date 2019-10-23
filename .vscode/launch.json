@@ -5,7 +5,7 @@
             "name": "scriptParser",
             "request": "launch",
             "mainClass": "com.sekhanov.scriptparser.App",
-            "args": "my.script",
+            "args": "sort.script",
             "stepFilters": {
                 "classNameFilters": [
                     "java.*",
