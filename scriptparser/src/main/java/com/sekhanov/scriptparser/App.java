@@ -13,7 +13,7 @@ public final class App {
             ScriptExecutor scriptExecutor = new ScriptExecutor(fileScanner);
             // scriptExecutor.testFile();
             scriptExecutor.addStatements();
-            scriptExecutor.startExecutingScript();
+            scriptExecutor.executeScript();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,7 +3,8 @@ package com.sekhanov.scriptparser;
 import java.io.Serializable;
 
 /**
- * IllegalScriptValue
+ * Исключение, выбрасываемое в случае, если при анализе строки не удалось
+ * определить тип команды
  */
 public class IllegalScriptValueException extends RuntimeException implements Serializable {
 
