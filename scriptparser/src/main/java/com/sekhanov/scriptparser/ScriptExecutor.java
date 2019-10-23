@@ -11,6 +11,13 @@ import java.util.Scanner;
  */
 public class ScriptExecutor {
 
+    private static final String PRINT_STATEMENT_REG_EX = "^\\s*read\\s+\\w+\\b\\s*$";
+    private static final String READ_STATEMENT_REG_EX = "^\\s*read\\s+\\w+\\b\\s*$";
+    private static final String GOTO_STATEMENT_REG_EX = "^\\s*goto\\s+\\w+\\b\\s*$";
+    private static final String VARIABLE_ASSIGNMENT_STATEMENT_REG_EX = "^\\s*\\w+\\s+=\\s+\\w+\\s*$";
+    private static final String VARIABLE_STATEMENT_REG_EX = "^\\s*\\w+\\s+=\\s+\\w+\\s+[*+-\\\\%]\\s+\\w+\\s*$";
+    private static final String CONDITION_STATEMENT_REG_EX = "^\\s*if\\s+\\w+\\s+(>|<|==|!=|>=|<=)\\s+\\w+\\s+goto\\s+\\w+\\s*$";
+
     private List<String> statementList;
     private Scanner fileScanner;
     private Scanner inputScanner;
@@ -53,8 +60,23 @@ public class ScriptExecutor {
     }
 
     private void parseStatement(String statement) {
-        if (statement.startsWith("if")) {
+        if (statement.matches(CONDITION_STATEMENT_REG_EX)) {
             executeConditionalStatement(statement);
+        }
+        if (statement.matches(PRINT_STATEMENT_REG_EX)) {
+
+        }
+        if (statement.matches(GOTO_STATEMENT_REG_EX)) {
+
+        }
+        if (statement.matches(READ_STATEMENT_REG_EX)) {
+
+        }
+        if (statement.matches(VARIABLE_ASSIGNMENT_STATEMENT_REG_EX)) {
+
+        }
+        if (statement.matches(VARIABLE_STATEMENT_REG_EX)) {
+
         }
     }
 
