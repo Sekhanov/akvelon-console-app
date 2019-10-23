@@ -5,7 +5,20 @@
             "name": "scriptParser",
             "request": "launch",
             "mainClass": "com.sekhanov.scriptparser.App",
-            "args": "my.script"
+            "args": "my.script",
+            "stepFilters": {
+                "classNameFilters": [
+                    "java.*",
+                    "javax.*",
+                    "com.sun.*",
+                    "sun.*",
+                    "sunw.*",
+                    "org.omg.*"
+                ],
+                "skipSynthetics": false,
+                "skipStaticInitializers": false,
+                "skipConstructors": false
+            }
         }
     ]
 }

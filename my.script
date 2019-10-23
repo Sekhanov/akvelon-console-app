@@ -4,7 +4,7 @@ start:
 	if N > 1 goto step
 	print R
 	goto end
-step:
+step: 
 	R = R * N
 	N = N - 1
 	goto start
