@@ -1,0 +1,22 @@
+read MIN
+start:
+	HOUR = MIN / 60
+	MIN = MIN % 60
+	DAY = HOUR / 24
+	HOUR = HOUR % 24
+	YEAR = DAY / 365
+	DAY = DAY % 365	
+	if YEAR != 0 goto yearPrint	
+	if DAY != 0 goto printDay
+	if HOUR != 0 goto printHour
+	if MIN != 0 goto printMin
+	goto end
+yearPrint:
+	print YEAR	
+printDay:
+	print DAY	
+printHour:
+	print HOUR	
+printMin:
+	print MIN	
+end:

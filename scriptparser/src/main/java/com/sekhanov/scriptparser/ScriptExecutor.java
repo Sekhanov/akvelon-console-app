@@ -270,6 +270,9 @@ public class ScriptExecutor {
         if (varNum.matches(NUMBERS_REG_EX)) {
             return Integer.valueOf(varNum);
         } else {
+            if(variables.get(varNum) == null) {
+                throw new IllegalScriptValueException("error in line " + (currentStatement + 1) +  " variable '" + varNum + "' is not defined");
+            }
             return variables.get(varNum);
         }
     }

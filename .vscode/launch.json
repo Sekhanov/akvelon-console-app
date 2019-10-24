@@ -5,7 +5,7 @@
             "name": "scriptParser",
             "request": "launch",
             "mainClass": "com.sekhanov.scriptparser.App",
-            "args": "fibonacci-no-format.script",
+            "args": "fibonacci.script",
             "stepFilters": {
                 "classNameFilters": [
                     "java.*",
