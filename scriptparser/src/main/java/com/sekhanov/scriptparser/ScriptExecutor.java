@@ -118,9 +118,8 @@ public class ScriptExecutor {
     }
 
     /**
-     * Метод разбивает команду на отдельные аргументы, в зависимости от оператора
-     * выполняет выражение из двух операндов и присваивает значение результата
-     * выражения переменной
+     * В зависимости от оператора, выполняет выражение из двух операндов
+     *  и присваивается значение результата выражения переменной
      *
      * @param statement команда соответствующая регулярному выражению
      *                  {@link ScriptExecutor#VARIABLE_STATEMENT_REG_EX}
@@ -154,7 +153,7 @@ public class ScriptExecutor {
     }
 
     /**
-     * переход к исполнению блока команд по метке из второго аргумента строки
+     * переход в последовательности команд к указанной в аргументе команды метке
      *
      * @param statement команда соответствующая регулярному выражению
      *                  {@link ScriptExecutor#LABEL_STATEMENT_REG_EX}
@@ -164,7 +163,7 @@ public class ScriptExecutor {
         if (statementList.contains(parts[1] + ":")) {
             currentStatement = statementList.indexOf(parts[1] + ":");
         } else {
-            throw new IllegalScriptValueException("label value '" + parts[5] + "' at the line number " + (currentStatement + 1) + " is not correct");
+            throw new IllegalScriptValueException("label value '" + parts[1] + "' at the line number " + (currentStatement + 1) + " is not correct");
         }
 
     }
@@ -202,7 +201,7 @@ public class ScriptExecutor {
     }
 
     /**
-     * Выводит на экран число или переменную
+     * Выводит на экран число или значение переменной
      *
      * @param statement команда соответствующая регулярному выражению
      *                  {@link ScriptExecutor#PRINT_STATEMENT_REG_EX}
@@ -214,8 +213,8 @@ public class ScriptExecutor {
     }
 
     /**
-     * проверяет условие, переданное в команде. В случае истинности переходит к
-     * исполнению блока команд по метке из последнего аргумента строки
+     * проверяет условие, переданное в команде. В случае истинности переход в последовательности команд
+     * к указанной в аргументе команды метке, в противном случае переходит к следующей в списке команде
      *
      * @param statement команда соответствующая регулярному выражению
      *                  {@link ScriptExecutor#CONDITION_STATEMENT_REG_EX}
@@ -235,7 +234,7 @@ public class ScriptExecutor {
     }
 
     /**
-     * Проверка условия
+     * Проверка условия команды
      *
      * @param parts аргументы строки условной команды
      */
@@ -262,7 +261,7 @@ public class ScriptExecutor {
     }
 
     /**
-     * Получение значения переменно или литерала представленного в строке команды
+     * Получение значения переменно или числа представленного в строке команды
      *
      * @param varNum отдельный операнд команды
      */
