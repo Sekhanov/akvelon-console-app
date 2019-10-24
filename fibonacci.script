@@ -1,0 +1,15 @@
+    read MAX
+    INT1 = 0
+    INT2 = 1    
+    COUNTER = 0
+start:
+    if COUNTER < MAX goto cycle
+    goto end
+cycle:
+    RESULT = INT1 + INT2
+    print RESULT
+    INT1 = INT2
+    INT2 = RESULT
+    COUNTER = COUNTER + 1
+    goto start
+end:

@@ -11,9 +11,6 @@ import java.util.Scanner;
  */
 public class ScriptExecutor {
 
-    /**
-     * Регулярные выражения для определения типа команды
-     */
     private static final String TAG_STATEMENT_REG_EX = "^\\s*\\w+:\\s*$";
     private static final String PRINT_STATEMENT_REG_EX = "^\\s*print\\s+\\w+\\s*$";
     private static final String READ_STATEMENT_REG_EX = "^\\s*read\\s+\\w+\\s*$";
@@ -21,6 +18,9 @@ public class ScriptExecutor {
     private static final String VARIABLE_ASSIGNMENT_STATEMENT_REG_EX = "^\\s*\\w+\\s+=\\s+\\w+\\s*$";
     private static final String VARIABLE_STATEMENT_REG_EX = "^\\s*\\w+\\s+=\\s+\\w+\\s+[*+-\\\\%]\\s+\\w+\\s*$";
     private static final String CONDITION_STATEMENT_REG_EX = "^\\s*if\\s+\\w+\\s+(>|<|==|!=|>=|<=)\\s+\\w+\\s+goto\\s+\\w+\\s*$";
+    private static final String SPACES_REG_EX = "\\s+";
+    private static final String NUMBERS_REG_EX = "\\d+";
+    private static final String NEW_LINE_REG_EX = "(\\n|\\n\\r)";
 
     /**
      * Полный список всех команд, считанных из файла скрипта
@@ -45,17 +45,23 @@ public class ScriptExecutor {
     }
 
     /**
-     * Метод разбивает скрипт на отдельные команды по метке, если команда и метка
-     * находятся на одной строке, либо по символам новой строки. Так же убираются
+     * Метод разбивает скрипт на отдельные команды по символам новой строки. Если команда и метка
+     * находятся на одной строке, то они разбиваются на две отдельные команды. Так же убираются
      * все лишние пробелы по краям и вся строка преобразуется в нижний регистр
      * (скрипт не чувствителен к регистру)
      */
     public void addStatements() {
         String nextCommand = "";
         while (fileScanner.hasNext()) {
-            fileScanner.useDelimiter("(\\n|\\n\\r)");
+            fileScanner.useDelimiter(NEW_LINE_REG_EX);
             nextCommand = fileScanner.next().trim().toLowerCase();
             if (nextCommand.equals("")) {
+                continue;
+            }
+            if(nextCommand.contains(":") && nextCommand.split(":").length > 1) {
+                String[] parts = nextCommand.split(":");
+                statementList.add((parts[0] + ":").trim());
+                statementList.add(parts[1].trim());
                 continue;
             }
             statementList.add(nextCommand);
@@ -120,7 +126,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#VARIABLE_STATEMENT_REG_EX}
      */
     private void assignVariableFromExpression(String statement) {
-        String[] parts = statement.split("\\s+");
+        String[] parts = statement.split(SPACES_REG_EX);
         int firstOperand = getOperandValue(parts[2]);
         int secondOperand = getOperandValue(parts[4]);
         int result = 0;
@@ -154,7 +160,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#TAG_STATEMENT_REG_EX}
      */
     private void goToTag(String statement) {
-        String[] parts = statement.split("\\s+");
+        String[] parts = statement.split(SPACES_REG_EX);
         if (statementList.contains(parts[1] + ":")) {
             currentStatement = statementList.indexOf(parts[1] + ":");
         } else {
@@ -170,7 +176,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#VARIABLE_ASSIGNMENT_STATEMENT_REG_EX}
      */
     private void assignVariableValue(String statement) {
-        String[] parts = statement.split("\\s+");
+        String[] parts = statement.split(SPACES_REG_EX);
         variables.put(parts[0], getOperandValue(parts[2]));
         currentStatement++;
     }
@@ -183,7 +189,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#READ_STATEMENT_REG_EX}
      */
     private void readVariableValue(String statement) {
-        String[] parts = statement.split("\\s+");
+        String[] parts = statement.split(SPACES_REG_EX);
         System.out.print(parts[1] + "=");
         while (!inputScanner.hasNextInt()) {
             inputScanner.next();
@@ -202,7 +208,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#PRINT_STATEMENT_REG_EX}
      */
     private void printVarNum(String statement) {
-        String[] parts = statement.split("\\s+");
+        String[] parts = statement.split(SPACES_REG_EX);
         System.out.println(getOperandValue(parts[1]));
         currentStatement++;
     }
@@ -215,7 +221,7 @@ public class ScriptExecutor {
      *                  {@link ScriptExecutor#CONDITION_STATEMENT_REG_EX}
      */
     private void executeConditionalStatement(String statement) {
-        String[] parts = statement.split(" ");
+        String[] parts = statement.split(SPACES_REG_EX);
         boolean conditionTrue = checkCondition(parts);
         if (conditionTrue) {
             if (statementList.contains(parts[5] + ":")) {
@@ -231,7 +237,7 @@ public class ScriptExecutor {
     /**
      * Проверка условия
      *
-     * @param parts аргументы строки условнойкоманды
+     * @param parts аргументы строки условной команды
      */
     private boolean checkCondition(String[] parts) {
         int firstOperand = getOperandValue(parts[1]);
@@ -261,7 +267,7 @@ public class ScriptExecutor {
      * @param varNum отдельный операнд команды
      */
     private int getOperandValue(String varNum) {
-        if (varNum.matches("\\d+")) {
+        if (varNum.matches(NUMBERS_REG_EX)) {
             return Integer.valueOf(varNum);
         } else {
             return variables.get(varNum);
