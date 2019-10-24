@@ -1,4 +1,4 @@
-    read MAX
+    read MaX
         INT1 = 0
 
 
@@ -9,13 +9,13 @@ start:    if COUNTER             < MAX goto cycle
 cycle:
 
 
-    RESULT        = INT1   +  INT2
+    RESULt        = INT1   +  INT2
     print                   RESULT
     INT1                            = INT2
 
 
 
-    INT2 = RESULT
-    COUNTER     = COUNTER + 1
+    int2 = RESULT
+    COUNTER     = COuNTeR + 1
     goto         start
 end:

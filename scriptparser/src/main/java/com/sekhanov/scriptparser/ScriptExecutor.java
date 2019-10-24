@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class ScriptExecutor {
 
-    private static final String TAG_STATEMENT_REG_EX = "^\\s*\\w+:\\s*$";
+    private static final String LABEL_STATEMENT_REG_EX = "^\\s*\\w+:\\s*$";
     private static final String PRINT_STATEMENT_REG_EX = "^\\s*print\\s+\\w+\\s*$";
     private static final String READ_STATEMENT_REG_EX = "^\\s*read\\s+\\w+\\s*$";
     private static final String GOTO_STATEMENT_REG_EX = "^\\s*goto\\s+\\w+\\b\\s*$";
@@ -66,7 +66,7 @@ public class ScriptExecutor {
             }
             statementList.add(nextCommand);
         }
-        statementList.forEach(System.out::println);
+        // statementList.forEach(System.out::println);
     }
 
     /**
@@ -95,7 +95,7 @@ public class ScriptExecutor {
             return;
         }
         if (statement.matches(GOTO_STATEMENT_REG_EX)) {
-            goToTag(statement);
+            goToLabel(statement);
             return;
         }
         if (statement.matches(READ_STATEMENT_REG_EX)) {
@@ -110,7 +110,7 @@ public class ScriptExecutor {
             assignVariableFromExpression(statement);
             return;
         }
-        if (statement.matches(TAG_STATEMENT_REG_EX)) {
+        if (statement.matches(LABEL_STATEMENT_REG_EX)) {
             currentStatement++;
             return;
         }
@@ -157,14 +157,14 @@ public class ScriptExecutor {
      * переход к исполнению блока команд по метке из второго аргумента строки
      *
      * @param statement команда соответствующая регулярному выражению
-     *                  {@link ScriptExecutor#TAG_STATEMENT_REG_EX}
+     *                  {@link ScriptExecutor#LABEL_STATEMENT_REG_EX}
      */
-    private void goToTag(String statement) {
+    private void goToLabel(String statement) {
         String[] parts = statement.split(SPACES_REG_EX);
         if (statementList.contains(parts[1] + ":")) {
             currentStatement = statementList.indexOf(parts[1] + ":");
         } else {
-            throw new IllegalScriptValueException("tag value '" + parts[5] + "' at the line number " + (currentStatement + 1) + " is not correct");
+            throw new IllegalScriptValueException("label value '" + parts[5] + "' at the line number " + (currentStatement + 1) + " is not correct");
         }
 
     }
@@ -227,7 +227,7 @@ public class ScriptExecutor {
             if (statementList.contains(parts[5] + ":")) {
                 currentStatement = statementList.indexOf(parts[5] + ":");
             } else {
-                throw new IllegalScriptValueException("tag value '" + parts[5] + "' at the line number " + (currentStatement + 1) + " is not correct");
+                throw new IllegalScriptValueException("label value '" + parts[5] + "' at the line number " + (currentStatement + 1) + " is not correct");
             }
         } else {
             currentStatement++;
